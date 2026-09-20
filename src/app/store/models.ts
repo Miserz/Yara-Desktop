@@ -24,7 +24,7 @@ interface IInitialState {
 interface IActions {
 	load: () => Promise<void>
 	syncAll: () => Promise<void>
-	syncProvider: (providerId: string) => Promise<void>
+	syncProvider: (providerId: string) => Promise<boolean>
 	prune: () => void
 	addProvider: (provider: Omit<Provider, 'id'>) => Promise<Provider>
 	updateProvider: (provider: Provider) => Promise<void>
@@ -34,7 +34,7 @@ interface IActions {
 	toggleModelEnabled: (model: ModelRef) => Promise<void>
 	setActiveModel: (model: ModelRef | null) => Promise<void>
 	testProvider: (baseUrl: string, apiKey: string) => Promise<void>
-	fetchModels: (providerId: string) => Promise<void>
+	fetchModels: (providerId: string) => Promise<boolean>
 }
 
 interface IModelsState extends IInitialState, IActions {}
@@ -98,7 +98,7 @@ const modelsStore: StateCreator<IModelsState> = (set, get) => ({
 	},
 	syncProvider: async providerId => {
 		const provider = get().providers.find(item => item.id === providerId)
-		if (!provider) return
+		if (!provider) return false
 		try {
 			const remote = await api.fetchRemoteModels(providerId)
 			set(state => {
@@ -111,8 +111,10 @@ const modelsStore: StateCreator<IModelsState> = (set, get) => ({
 					models: mergeModels(remoteByProvider, state.customModels)
 				}
 			})
+			return true
 		} catch {
 			// keep the previously synced list on transient failures
+			return false
 		}
 	},
 	prune: () => {
@@ -247,8 +249,9 @@ const modelsStore: StateCreator<IModelsState> = (set, get) => ({
 		await api.testProvider(baseUrl, apiKey)
 	},
 	fetchModels: async providerId => {
-		await get().syncProvider(providerId)
+		const ok = await get().syncProvider(providerId)
 		get().prune()
+		return ok
 	}
 })
 

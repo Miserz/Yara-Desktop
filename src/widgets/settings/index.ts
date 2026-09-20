@@ -1,3 +1,7 @@
 export * from './ui/settings-sections'
 export * from './ui/settings-nav'
 export * from './ui/settings-content'
+export * from './ui/setting-toggle'
+export * from './ui/general-section'
+export * from './ui/models-section'
+export * from './ui/about-section'

@@ -13,7 +13,7 @@ export function SettingsNav() {
 				<SidebarItem
 					key={item.id}
 					icon={item.icon}
-					text={t(`settings.${item.nameKey}`)}
+					text={t(`settings.${item.nameKey}.title`)}
 					variant={section === item.id ? 'default' : 'ghost'}
 					onClick={() => setSettingsSection(item.id)}
 				/>
