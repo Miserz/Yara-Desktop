@@ -171,7 +171,7 @@ impl ChatsStore {
 		let mut stmt = conn
 			.prepare(
 				"SELECT id, role, content, reasoning, created_at
-				 FROM messages WHERE chat_id = ?1 ORDER BY created_at",
+				 FROM messages WHERE chat_id = ?1 ORDER BY rowid",
 			)
 			.map_err(|e| e.to_string())?;
 		let rows = stmt
@@ -200,7 +200,7 @@ impl ChatsStore {
 		let conn = self.conn.lock().map_err(|e| e.to_string())?;
 		conn.query_row(
 			"SELECT content FROM messages
-			 WHERE chat_id = ?1 AND role = 'user' ORDER BY created_at LIMIT 1",
+			 WHERE chat_id = ?1 AND role = 'user' ORDER BY rowid LIMIT 1",
 			params![chat_id],
 			|row| row.get::<_, String>(0),
 		)
@@ -251,17 +251,29 @@ impl ChatsStore {
 		Ok(())
 	}
 
-	/// Deletes a message and everything after it in the same chat. Used by
-	/// edit/regenerate: the truncated tail is re-created by the new run.
-	pub fn truncate_from(&self, chat_id: &str, message_id: &str) -> Result<(), String> {
+	/// Cuts a conversation branch. With `inclusive` the target message is
+	/// removed together with its tail (regenerate flow); otherwise the
+	/// target is kept and only later messages are cut (edit flow keeps the
+	/// rewritten question). Ordered by rowid — the true insertion order —
+	/// so equal timestamps can never cut the wrong tail.
+	pub fn truncate_from(
+		&self,
+		chat_id: &str,
+		message_id: &str,
+		inclusive: bool,
+	) -> Result<(), String> {
 		let conn = self.conn.lock().map_err(|e| e.to_string())?;
-		conn.execute(
+		let sql = if inclusive {
 			"DELETE FROM messages
 			 WHERE chat_id = ?1
-			 AND created_at >= (SELECT created_at FROM messages WHERE id = ?2)",
-			params![chat_id, message_id],
-		)
-		.map_err(|e| e.to_string())?;
+			 AND rowid >= (SELECT rowid FROM messages WHERE id = ?2)"
+		} else {
+			"DELETE FROM messages
+			 WHERE chat_id = ?1
+			 AND rowid > (SELECT rowid FROM messages WHERE id = ?2)"
+		};
+		conn.execute(sql, params![chat_id, message_id])
+			.map_err(|e| e.to_string())?;
 		Ok(())
 	}
 
@@ -592,16 +604,35 @@ mod tests {
 		assert_eq!(messages[2].content, "edited question");
 		assert_eq!(messages[3].content, "second answer");
 
-		// Truncating from r2 removes r2 only (tail of the branch).
-		store.truncate_from("a", "r2").unwrap();
+		// Truncating from r2 inclusively removes r2 only (tail of the branch).
+		store.truncate_from("a", "r2", true).unwrap();
 		let messages = store.load_messages("a").unwrap();
 		assert_eq!(messages.len(), 3);
 		assert_eq!(messages[2].content, "edited question");
 
-		// Truncating from u2 removes the pair and everything after.
-		store.truncate_from("a", "u2").unwrap();
+		// Truncating from u2 inclusively removes the pair and everything after.
+		store.truncate_from("a", "u2", true).unwrap();
 		let messages = store.load_messages("a").unwrap();
 		assert_eq!(messages.len(), 2);
 		assert_eq!(messages[1].content, "first answer");
+	}
+
+	#[test]
+	fn truncate_exclusive_keeps_target() {
+		let store = ChatsStore::in_memory().unwrap();
+		store.create_chat("a", now()).unwrap();
+		// Identical timestamps: ordering must still follow insertion order.
+		let at = now();
+		store.append_message("u1", "a", "user", "q1", None, at).unwrap();
+		store.append_message("r1", "a", "assistant", "a1", None, at).unwrap();
+		store.append_message("u2", "a", "user", "q2", None, at).unwrap();
+		store.append_message("r2", "a", "assistant", "a2", None, at).unwrap();
+
+		// Edit flow: the rewritten question survives, only its tail is cut.
+		store.edit_message("u2", "edited").unwrap();
+		store.truncate_from("a", "u2", false).unwrap();
+		let messages = store.load_messages("a").unwrap();
+		assert_eq!(messages.len(), 3);
+		assert_eq!(messages[2].content, "edited");
 	}
 }

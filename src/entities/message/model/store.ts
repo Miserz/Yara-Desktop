@@ -230,9 +230,15 @@ const messagesStore: StateCreator<IMessageState> = (set, get) => ({
 		const index = get().messages.findIndex(message => message.id === id)
 		if (index < 0 || get().messages[index].role !== 'user') return
 
-		// Persist: rewrite the message, cut everything after it.
-		await chatsApi.editMessage(id, trimmed).catch(() => {})
-		await chatsApi.truncateFrom(chatId, id).catch(() => {})
+		// Persist: rewrite the message, cut everything after it (the edited
+		// message itself is kept). Abort when persistence fails so memory
+		// and the database can't diverge.
+		try {
+			await chatsApi.editMessage(id, trimmed)
+			await chatsApi.truncateFrom(chatId, id, false)
+		} catch {
+			return
+		}
 
 		const requestId = generateId()
 		const kept = get().messages.slice(0, index)
@@ -286,8 +292,19 @@ const messagesStore: StateCreator<IMessageState> = (set, get) => ({
 		const index = get().messages.findIndex(message => message.id === id)
 		if (index < 0 || get().messages[index].role !== 'assistant') return
 
-		// Persist: cut this answer and everything after it.
-		await chatsApi.truncateFrom(chatId, id).catch(() => {})
+		// Persist: cut this answer and everything after it, keeping the user
+		// message it responds to. Abort when persistence fails so memory
+		// and the database can't diverge.
+		try {
+			const previous = get().messages[index - 1]
+			if (previous) {
+				await chatsApi.truncateFrom(chatId, previous.id, false)
+			} else {
+				await chatsApi.truncateFrom(chatId, id, true)
+			}
+		} catch {
+			return
+		}
 
 		const requestId = generateId()
 		const kept = get().messages.slice(0, index)

@@ -44,9 +44,13 @@ export const clearAllChats = () => invoke('clear_all_chats')
 export const editMessage = (id: string, content: string) =>
 	invoke('edit_message', { id, content })
 
-/** Deletes a message and everything after it in the same chat. */
-export const truncateFrom = (chatId: string, messageId: string) =>
-	invoke('truncate_from', { chatId, messageId })
+/** Cuts a conversation branch. `inclusive` removes the target message
+ *  itself (regenerate); otherwise the target is kept (edit). */
+export const truncateFrom = (
+	chatId: string,
+	messageId: string,
+	inclusive: boolean
+) => invoke('truncate_from', { chatId, messageId, inclusive })
 
 export const createChat = (id: string) =>
 	invoke<ChatRow>('create_chat', { id })

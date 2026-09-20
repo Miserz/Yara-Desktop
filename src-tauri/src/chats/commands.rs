@@ -99,17 +99,18 @@ pub fn edit_message(
 	store.edit_message(&id, &content)
 }
 
-/// Deletes a message and everything after it in the same chat
-/// (edit / regenerate flows cut the branch before re-running).
+/// Cuts a conversation branch. `inclusive` removes the target message
+/// itself (regenerate); otherwise the target is kept (edit).
 #[tauri::command]
 pub fn truncate_from(
 	app: tauri::AppHandle,
 	state: State<'_, ChatsState>,
 	chat_id: String,
 	message_id: String,
+	inclusive: bool,
 ) -> Result<(), String> {
 	let store = state.lock().map_err(|e| e.to_string())?;
-	store.truncate_from(&chat_id, &message_id)?;
+	store.truncate_from(&chat_id, &message_id, inclusive)?;
 	crate::logging::info(
 		&app,
 		"db",
