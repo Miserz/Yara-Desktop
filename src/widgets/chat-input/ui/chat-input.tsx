@@ -143,7 +143,7 @@ export function ChatInput() {
 					rows={1}
 					className='max-h-50 resize-none overflow-y-auto bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none'
 				/>
-				<div className='flex items-center gap-1'>
+				<div className='flex items-center justify-between gap-1'>
 					<Button
 						variant='secondary'
 						size='sm'
