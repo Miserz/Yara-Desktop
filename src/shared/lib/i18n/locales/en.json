@@ -1,0 +1,95 @@
+{
+	"sidebar": {
+		"chats": "Chats",
+		"newChat": "New chat",
+		"search": "Search in chats",
+		"settings": "Settings",
+		"back": "Back"
+	},
+	"chatHistory": {
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"earlier": "Earlier",
+		"fallbackTitle": "New chat",
+		"rename": "Rename",
+		"delete": "Delete",
+		"titleA11y": "Chat title",
+		"actionsA11y": "Chat actions"
+	},
+	"welcome": {
+		"title": "Built to think.",
+		"subtitle": "Designed to assist."
+	},
+	"chat": {
+		"placeholder": "Ask AI anything",
+		"placeholderNoModel": "Select a model to start chatting",
+		"selectModel": "Select model",
+		"stopGeneration": "Stop generation",
+		"sendMessage": "Send message"
+	},
+	"modelPicker": {
+		"search": "Search models",
+		"noEnabled": "No models enabled.",
+		"noFound": "No models found."
+	},
+	"message": {
+		"thinking": "Assistant is thinking",
+		"thinkingLabel": "Thinking…",
+		"thoughtProcess": "Thought process",
+		"copy": "Copy message",
+		"edit": "Edit message",
+		"tryAgain": "Try again"
+	},
+	"menu": {
+		"file": "File",
+		"newChat": "New Chat",
+		"newWindow": "New Window",
+		"commandMenu": "Command Menu",
+		"toggleSidebar": "Toggle sidebar",
+		"edit": "Edit",
+		"view": "View",
+		"help": "Help"
+	},
+	"commandMenu": {
+		"title": "Command menu",
+		"runCommand": "Run a command",
+		"typeCommand": "Type a command…",
+		"searchTitle": "Search",
+		"searchDescription": "Search chats and messages",
+		"searchPlaceholder": "Search chats and messages…",
+		"modelTitle": "Select model",
+		"modelDescription": "Search models across all providers",
+		"modelPlaceholder": "Search models…",
+		"noModels": "No models found.",
+		"noCommands": "No commands found.",
+		"noResults": "Nothing found.",
+		"comingSoon": "{{label}} search is coming soon.",
+		"tab": {
+			"all": "All",
+			"chats": "Chats",
+			"files": "Files",
+			"images": "Images",
+			"code": "Code"
+		},
+		"recentActivity": "Recent activity",
+		"chatsGroup": "Chats",
+		"inMessages": "In messages",
+		"filesGroup": "Files",
+		"noFiles": "No files yet",
+		"newChat": "New chat",
+		"changeModel": "Change model",
+		"searchInChats": "Search in chats",
+		"openSettings": "Open settings",
+		"toggleSidebar": "Toggle sidebar",
+		"today": "Today",
+		"yesterday": "Yesterday"
+	},
+	"settings": {
+		"title": "Settings",
+		"general": "General",
+		"appearance": "Appearance",
+		"models": "Models",
+		"about": "About",
+		"emptySection": "{{name}} settings will appear here."
+	}
+}

@@ -1,0 +1,95 @@
+{
+	"sidebar": {
+		"chats": "Чаты",
+		"newChat": "Новый чат",
+		"search": "Поиск по чатам",
+		"settings": "Настройки",
+		"back": "Назад"
+	},
+	"chatHistory": {
+		"today": "Сегодня",
+		"yesterday": "Вчера",
+		"earlier": "Ранее",
+		"fallbackTitle": "Новый чат",
+		"rename": "Переименовать",
+		"delete": "Удалить",
+		"titleA11y": "Название чата",
+		"actionsA11y": "Действия с чатом"
+	},
+	"welcome": {
+		"title": "Создан думать.",
+		"subtitle": "Призван помогать."
+	},
+	"chat": {
+		"placeholder": "Спросите что угодно",
+		"placeholderNoModel": "Выберите модель, чтобы начать",
+		"selectModel": "Выбрать модель",
+		"stopGeneration": "Остановить генерацию",
+		"sendMessage": "Отправить сообщение"
+	},
+	"modelPicker": {
+		"search": "Поиск моделей",
+		"noEnabled": "Нет включённых моделей.",
+		"noFound": "Модели не найдены."
+	},
+	"message": {
+		"thinking": "Ассистент думает",
+		"thinkingLabel": "Думает…",
+		"thoughtProcess": "Ход мысли",
+		"copy": "Копировать сообщение",
+		"edit": "Редактировать сообщение",
+		"tryAgain": "Повторить"
+	},
+	"menu": {
+		"file": "Файл",
+		"newChat": "Новый чат",
+		"newWindow": "Новое окно",
+		"commandMenu": "Меню команд",
+		"toggleSidebar": "Показать/скрыть панель",
+		"edit": "Правка",
+		"view": "Вид",
+		"help": "Справка"
+	},
+	"commandMenu": {
+		"title": "Меню команд",
+		"runCommand": "Выполнить команду",
+		"typeCommand": "Введите команду…",
+		"searchTitle": "Поиск",
+		"searchDescription": "Поиск по чатам и сообщениям",
+		"searchPlaceholder": "Поиск по чатам и сообщениям…",
+		"modelTitle": "Выбор модели",
+		"modelDescription": "Поиск моделей всех провайдеров",
+		"modelPlaceholder": "Поиск моделей…",
+		"noModels": "Модели не найдены.",
+		"noCommands": "Команды не найдены.",
+		"noResults": "Ничего не найдено.",
+		"comingSoon": "Поиск по «{{label}}» скоро появится.",
+		"tab": {
+			"all": "Все",
+			"chats": "Чаты",
+			"files": "Файлы",
+			"images": "Изображения",
+			"code": "Код"
+		},
+		"recentActivity": "Недавние",
+		"chatsGroup": "Чаты",
+		"inMessages": "В сообщениях",
+		"filesGroup": "Файлы",
+		"noFiles": "Файлов пока нет",
+		"newChat": "Новый чат",
+		"changeModel": "Сменить модель",
+		"searchInChats": "Поиск по чатам",
+		"openSettings": "Открыть настройки",
+		"toggleSidebar": "Показать/скрыть панель",
+		"today": "Сегодня",
+		"yesterday": "Вчера"
+	},
+	"settings": {
+		"title": "Настройки",
+		"general": "Общие",
+		"appearance": "Внешний вид",
+		"models": "Модели",
+		"about": "О приложении",
+		"emptySection": "Настройки «{{name}}» появятся здесь."
+	}
+}
