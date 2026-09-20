@@ -8,6 +8,7 @@ import {
 	SquarePen
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { getCurrentLanguage } from '@/shared/lib/i18n'
 import {
 	Button,
 	CommandDialog,
@@ -70,7 +71,7 @@ const formatActivity = (updatedAt: number, t: (key: string) => string) => {
 	if (updatedAt >= todayMs) return `${t('commandMenu.today')} • ${time}`
 	if (updatedAt >= todayMs - 86_400_000)
 		return `${t('commandMenu.yesterday')} • ${time}`
-	const month = date.toLocaleString('en-US', { month: 'short' })
+	const month = date.toLocaleString(getCurrentLanguage() === 'ru' ? 'ru-RU' : 'en-US', { month: 'short' })
 	return `${date.getDate()} ${month} • ${time}`
 }
 

@@ -1,10 +1,17 @@
 import { memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { openUrl } from '@tauri-apps/plugin-opener'
 
 interface IProps {
 	content: string
 }
+
+/** Only http(s) links leave the app; anything else (javascript:, data:,
+ *  relative) renders as plain text so model output can't navigate the
+ *  webview or run scripts. */
+const isExternal = (href: string) =>
+	/^(https?:\/\/)/i.test(href.trim())
 
 /**
  * Markdown renderer for assistant messages. Deliberately unstyled tags —
@@ -13,8 +20,8 @@ interface IProps {
  */
 export const MarkdownContent = memo(({ content }: IProps) => (
 	<ReactMarkdown
-			remarkPlugins={[remarkGfm]}
-			components={{
+		remarkPlugins={[remarkGfm]}
+		components={{
 				p: ({ children }) => <p className='mb-3 last:mb-0'>{children}</p>,
 				h1: ({ children }) => (
 					<h1 className='mb-3 mt-5 text-xl font-semibold first:mt-0'>
@@ -48,16 +55,25 @@ export const MarkdownContent = memo(({ content }: IProps) => (
 					</blockquote>
 				),
 				hr: () => <hr className='my-4 border-border' />,
-				a: ({ children, href }) => (
+			a: ({ children, href }) => {
+				if (!href || !isExternal(href)) return <>{children}</>
+				return (
 					<a
 						href={href}
 						target='_blank'
-						rel='noreferrer'
+						rel='noopener noreferrer'
+						onClick={event => {
+							// Never navigate the webview itself — hand the URL
+							// to the OS browser via the opener plugin.
+							event.preventDefault()
+							openUrl(href).catch(() => {})
+						}}
 						className='text-foreground underline underline-offset-3 hover:text-muted-foreground'
 					>
 						{children}
 					</a>
-				),
+				)
+			},
 				code: ({ className, children }) => {
 					const isBlock = /language-/.test(className ?? '')
 				if (isBlock) {

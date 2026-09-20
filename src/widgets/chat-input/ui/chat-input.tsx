@@ -9,9 +9,6 @@ import {
 	ArrowUp,
 	Bot,
 	ChevronDown,
-	Globe,
-	Mic,
-	Paperclip,
 	Square
 } from 'lucide-react'
 import { Button } from '@/shared/components'
@@ -147,9 +144,6 @@ export function ChatInput() {
 					className='max-h-50 resize-none overflow-y-auto bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none'
 				/>
 				<div className='flex items-center gap-1'>
-					<Button size='icon-sm' variant='ghost' className='rounded-full'>
-						<Paperclip />
-					</Button>
 					<Button
 						variant='secondary'
 						size='sm'
@@ -161,16 +155,6 @@ export function ChatInput() {
 							{active ? active.displayName : t('chat.selectModel')}
 						</span>
 						<ChevronDown className='size-3.5 shrink-0 opacity-60' />
-					</Button>
-					<Button size='icon-sm' variant='ghost' className='rounded-full'>
-						<Globe />
-					</Button>
-					<Button
-						className='ml-auto rounded-full'
-						size='icon-sm'
-						variant='ghost'
-					>
-						<Mic />
 					</Button>
 					{isStreaming ? (
 						<Button

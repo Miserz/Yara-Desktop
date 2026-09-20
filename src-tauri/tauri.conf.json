@@ -23,7 +23,26 @@
 			}
 		],
 		"security": {
-			"csp": null
+			"csp": {
+				"default-src": ["'self'", "customprotocol:", "asset:"],
+				"script-src": ["'self'"],
+				"style-src": ["'self'", "'unsafe-inline'"],
+				"img-src": ["'self'", "asset:", "https:", "http:", "data:", "blob:"],
+				"font-src": ["'self'", "data:"],
+				"connect-src": [
+					"'self'",
+					"ipc:",
+					"http://ipc.localhost",
+					"https://*",
+					"http://*",
+					"ws://localhost:*",
+					"http://localhost:*"
+				],
+				"media-src": ["'self'", "asset:", "data:", "blob:", "https:"],
+				"object-src": ["'none'"],
+				"base-uri": ["'self'"],
+				"frame-src": ["'none'"]
+			}
 		}
 	},
 	"bundle": {
