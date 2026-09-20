@@ -36,13 +36,11 @@ impl ChatTitleRequest {
 
 	/// Fallback title derived from the first user message: first line,
 	/// trimmed to 60 chars. Used when the LLM fails or returns nothing.
+	/// Returns an empty string when there is nothing to derive — the
+	/// frontend then shows a localized fallback (t('chatHistory.fallbackTitle')).
 	pub fn fallback_title(source: &str) -> String {
 		let first_line = source.lines().next().unwrap_or("").trim();
-		let mut title: String = first_line.chars().take(60).collect();
-		if title.is_empty() {
-			title = "New chat".to_string();
-		}
-		title
+		first_line.chars().take(60).collect()
 	}
 }
 
@@ -140,7 +138,8 @@ mod tests {
 			ChatTitleRequest::fallback_title("Fix the login bug\nthen the logout one"),
 			"Fix the login bug"
 		);
-		assert_eq!(ChatTitleRequest::fallback_title(""), "New chat");
+		assert_eq!(ChatTitleRequest::fallback_title(""), "");
+		assert_eq!(ChatTitleRequest::fallback_title("   \n  "), "");
 	}
 }
 

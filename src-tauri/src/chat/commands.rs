@@ -92,13 +92,17 @@ async fn finalize_generation(
 			if let Some(source) = source {
 				// LLM titles can fail (network, rate limits) or come back
 				// empty — a derived fallback keeps every chat named.
+				// An empty derived title is left as NULL so the frontend
+				// shows a localized fallback (chatHistory.fallbackTitle).
 				let title = generate_chat_title(&app, &source)
 					.await
 					.unwrap_or_else(|| titles::ChatTitleRequest::fallback_title(&source));
-				let state = app.try_state::<Mutex<ChatsStore>>();
-				if let Some(state) = state {
-					if let Ok(store) = state.lock() {
-						let _ = store.rename_chat(&chat_id, &title);
+				if !title.trim().is_empty() {
+					let state = app.try_state::<Mutex<ChatsStore>>();
+					if let Some(state) = state {
+						if let Ok(store) = state.lock() {
+							let _ = store.rename_chat(&chat_id, &title);
+						}
 					}
 				}
 				// Let the sidebar pick up the new title immediately.
