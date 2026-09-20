@@ -30,6 +30,7 @@ import {
 	type StartupBehavior
 } from '@/entities/chat'
 import { clearAllChats } from '@/shared/api/chats'
+import { checkForUpdates } from '@/shared/lib/updater'
 import { SettingToggle } from './setting-toggle'
 
 const UPDATES_KEY = 'yara.checkUpdates'
@@ -209,6 +210,7 @@ export function GeneralSection() {
 		} catch {
 			// Storage unavailable — preference applies for this session only.
 		}
+		if (checked) void checkForUpdates()
 	}
 
 	return (

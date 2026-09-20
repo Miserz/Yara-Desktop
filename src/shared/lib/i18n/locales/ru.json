@@ -161,11 +161,19 @@
 			"syncFailed": "Не удалось синхронизироваться. Проверьте подключение.",
 			"notSynced": "Не синхронизировано"
 		},
+		"updates": {
+			"update": "Обновить",
+			"checking": "Проверка…",
+			"downloading": "Загрузка…",
+			"restart": "Перезапустить",
+			"updateAvailable": "Доступно {{version}}",
+			"upToDate": "Обновлений нет",
+			"error": "Не удалось проверить"
+		},
 		"about": {
 			"title": "О приложении",
 			"tagline": "Локальный чат с ИИ-моделями",
 			"versionBadge": "Версия {{version}}",
-			"updatesSoon": "Автопроверка обновлений появится позже",
 			"version": "Версия",
 			"engine": "Движок",
 			"engineValue": "Tauri 2 · Rust",

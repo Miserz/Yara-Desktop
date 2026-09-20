@@ -161,11 +161,19 @@
 			"syncFailed": "Sync failed. Check the connection.",
 			"notSynced": "Not synced"
 		},
+		"updates": {
+			"update": "Update",
+			"checking": "Checking…",
+			"downloading": "Downloading…",
+			"restart": "Restart",
+			"updateAvailable": "Available {{version}}",
+			"upToDate": "Up to date",
+			"error": "Check failed"
+		},
 		"about": {
 			"title": "About",
 			"tagline": "Local chat with AI models",
 			"versionBadge": "Version {{version}}",
-			"updatesSoon": "Automatic update checks are coming later",
 			"version": "Version",
 			"engine": "Engine",
 			"engineValue": "Tauri 2 · Rust",

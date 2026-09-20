@@ -15,6 +15,7 @@ import {
 	openCommandSearch
 } from '@/app/store/command-menu'
 import { openNewAppWindow } from '@/shared/lib/new-window'
+import { checkForUpdates } from '@/shared/lib/updater'
 
 const toMessage = (row: chatsApi.ChatMessageRow): Message => ({
 	id: row.id,
@@ -72,6 +73,14 @@ export function useBootstrap() {
 		}
 
 		void bootstrap()
+		// Auto-check updates if the user opted in (General → Проверять обновления).
+		try {
+			if (localStorage.getItem('yara.checkUpdates') === '1') {
+				void checkForUpdates()
+			}
+		} catch {
+			// Storage unavailable — skip auto-check.
+		}
 		return () => {
 			cancelled = true
 		}

@@ -6,6 +6,10 @@
 	"permissions": [
 		"core:default",
 		"opener:default",
+		"updater:default",
+		"updater:allow-check",
+		"updater:allow-download-and-install",
+		"updater:allow-download",
 		"core:window:allow-minimize",
 		"core:window:allow-toggle-maximize",
 		"core:window:allow-close",

@@ -1,8 +1,13 @@
-import { useState } from 'react'
 import { GitBranch, Globe, RefreshCw, Scale } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import { Button } from '@/shared/components'
+import {
+	useUpdaterError,
+	useUpdaterStatus,
+	useUpdaterVersion
+} from '@/app/store/updater'
+import { checkForUpdates, downloadAndInstall } from '@/shared/lib/updater'
 
 const APP_VERSION = '0.1.0'
 const REPO_URL = 'https://github.com/Miserz/yara'
@@ -13,11 +18,28 @@ function Divider() {
 
 export function AboutSection() {
 	const { t } = useTranslation()
-	const [updatesNote, setUpdatesNote] = useState(false)
+	const status = useUpdaterStatus()
+	const version = useUpdaterVersion()
+	const error = useUpdaterError()
 
 	const open = (url: string) => {
 		openUrl(url).catch(() => {})
 	}
+
+	const checkLabel =
+		status === 'checking'
+			? t('updates.checking')
+			: status === 'downloading'
+				? t('updates.downloading')
+				: status === 'available'
+					? t('updates.updateAvailable', { version: version ?? '' })
+					: status === 'ready'
+						? t('updates.restart')
+						: status === 'upToDate'
+							? t('updates.upToDate')
+							: status === 'error'
+								? (error ?? t('updates.error'))
+								: null
 
 	const rows: { label: string; value: string }[] = [
 		{ label: t('settings.about.version'), value: APP_VERSION },
@@ -36,8 +58,14 @@ export function AboutSection() {
 	const links = [
 		{
 			icon: RefreshCw,
-			label: t('settings.about.checkUpdates'),
-			action: () => setUpdatesNote(true)
+			label:
+				status === 'available' || status === 'ready'
+					? t('updates.update')
+					: t('settings.about.checkUpdates'),
+			action: () =>
+				status === 'available' || status === 'ready'
+					? void downloadAndInstall()
+					: void checkForUpdates()
 		},
 		{
 			icon: Globe,
@@ -72,10 +100,8 @@ export function AboutSection() {
 						{t('settings.about.versionBadge', { version: APP_VERSION })}
 					</span>
 				</div>
-				{updatesNote && (
-					<div className='text-xs text-muted-foreground'>
-						{t('settings.about.updatesSoon')}
-					</div>
+				{checkLabel && (
+					<div className='text-xs text-muted-foreground'>{checkLabel}</div>
 				)}
 			</div>
 			<div className='flex flex-col'>
