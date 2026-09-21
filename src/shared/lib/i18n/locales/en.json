@@ -106,7 +106,8 @@
 			"shortcut_newChat": "New chat",
 			"shortcut_commandMenu": "Command menu",
 			"shortcut_searchChats": "Search in chats",
-			"shortcut_newWindow": "New window"
+			"shortcut_newWindow": "New window",
+			"shortcut_toggleSidebar": "Toggle sidebar"
 		},
 		"models": {
 			"title": "Models",
@@ -155,20 +156,15 @@
 			"selectedCount": "Selected: {{count}}",
 			"providerLabel": "Provider: {{provider}}",
 			"noProviders": "No providers added",
+			"noProvidersDesc": "Add OpenRouter, Together AI or local Ollama — keys stay on this device",
+			"emptyTitle": "Nothing here yet",
+			"emptyDesc": "Add a provider to see models. Start with OpenRouter — just an API key.",
+			"docsLink": "Documentation →",
 			"noModels": "No models found.",
 			"syncing": "Syncing…",
 			"syncedJustNow": "Synced just now",
 			"syncFailed": "Sync failed. Check the connection.",
 			"notSynced": "Not synced"
-		},
-		"updates": {
-			"update": "Update",
-			"checking": "Checking…",
-			"downloading": "Downloading…",
-			"restart": "Restart",
-			"updateAvailable": "Available {{version}}",
-			"upToDate": "Up to date",
-			"error": "Check failed"
 		},
 		"about": {
 			"title": "About",
@@ -191,5 +187,14 @@
 		"appearance": {
 			"title": "Appearance"
 		}
+	},
+	"updates": {
+		"update": "Update",
+		"checking": "Checking…",
+		"downloading": "Downloading…",
+		"restart": "Restart",
+		"updateAvailable": "Available {{version}}",
+		"upToDate": "Up to date",
+		"error": "Check failed"
 	}
 }

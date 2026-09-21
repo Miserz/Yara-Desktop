@@ -22,9 +22,18 @@ export async function checkForUpdates(): Promise<boolean> {
 		setUpdaterStatus('available', { version: update.version })
 		return true
 	} catch (error) {
-		setUpdaterStatus('error', {
-			error: error instanceof Error ? error.message : String(error)
-		})
+		const raw = error instanceof Error ? error.message : String(error)
+		// No published release yet → latest.json 404 is not an error, just "up to date"
+		if (
+			raw.includes('Could not fetch a valid release JSON') ||
+			raw.includes('404') ||
+			raw.toLowerCase().includes('not found')
+		) {
+			setUpdaterStatus('upToDate', { version: null })
+			setTimeout(() => resetUpdater(), 4000)
+			return false
+		}
+		setUpdaterStatus('error', { error: raw })
 		setTimeout(() => resetUpdater(), 5000)
 		return false
 	} finally {
@@ -37,9 +46,16 @@ export async function downloadAndInstall(): Promise<void> {
 	try {
 		update = await updater.check()
 	} catch (error) {
-		setUpdaterStatus('error', {
-			error: error instanceof Error ? error.message : String(error)
-		})
+		const raw = error instanceof Error ? error.message : String(error)
+		if (
+			raw.includes('Could not fetch a valid release JSON') ||
+			raw.includes('404')
+		) {
+			setUpdaterStatus('upToDate', { version: null })
+			setTimeout(() => resetUpdater(), 4000)
+			return
+		}
+		setUpdaterStatus('error', { error: raw })
 		return
 	}
 	if (!update) {

@@ -16,6 +16,7 @@ import {
 } from '@/app/store/command-menu'
 import { openNewAppWindow } from '@/shared/lib/new-window'
 import { checkForUpdates } from '@/shared/lib/updater'
+import { useSidebarStore } from '@/app/store/sidebar'
 
 const toMessage = (row: chatsApi.ChatMessageRow): Message => ({
 	id: row.id,
@@ -91,8 +92,10 @@ export function useBootstrap() {
 export function useShortcuts() {
 	useEffect(() => {
 		const handler = (event: KeyboardEvent) => {
-			if (!event.ctrlKey || event.shiftKey || event.altKey) return
+			const isMod = event.ctrlKey || event.metaKey
+			if (!isMod || event.altKey) return
 			const key = event.key.toLowerCase()
+			if (event.shiftKey) return
 			if (key === 't') {
 				event.preventDefault()
 				newChat()
@@ -105,6 +108,9 @@ export function useShortcuts() {
 			} else if (key === 'n') {
 				event.preventDefault()
 				openNewAppWindow()
+			} else if (key === 'b') {
+				event.preventDefault()
+				useSidebarStore.getState().toggle()
 			}
 		}
 		window.addEventListener('keydown', handler)

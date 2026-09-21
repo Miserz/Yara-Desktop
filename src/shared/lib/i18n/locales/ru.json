@@ -106,7 +106,8 @@
 			"shortcut_newChat": "Новый чат",
 			"shortcut_commandMenu": "Меню команд",
 			"shortcut_searchChats": "Поиск по чатам",
-			"shortcut_newWindow": "Новое окно"
+			"shortcut_newWindow": "Новое окно",
+			"shortcut_toggleSidebar": "Показать/скрыть панель"
 		},
 		"models": {
 			"title": "Модели",
@@ -155,20 +156,15 @@
 			"selectedCount": "Выбрано: {{count}}",
 			"providerLabel": "Провайдер: {{provider}}",
 			"noProviders": "Провайдеры не добавлены",
+			"noProvidersDesc": "Добавьте OpenRouter, Together AI или локальный Ollama — ключи хранятся на устройстве",
+			"emptyTitle": "Пока пусто",
+			"emptyDesc": "Добавьте провайдера, чтобы увидеть модели. Можно начать с OpenRouter — нужен только API-ключ.",
+			"docsLink": "Документация →",
 			"noModels": "Модели не найдены.",
 			"syncing": "Синхронизация…",
 			"syncedJustNow": "Синхронизировано только что",
 			"syncFailed": "Не удалось синхронизироваться. Проверьте подключение.",
 			"notSynced": "Не синхронизировано"
-		},
-		"updates": {
-			"update": "Обновить",
-			"checking": "Проверка…",
-			"downloading": "Загрузка…",
-			"restart": "Перезапустить",
-			"updateAvailable": "Доступно {{version}}",
-			"upToDate": "Обновлений нет",
-			"error": "Не удалось проверить"
 		},
 		"about": {
 			"title": "О приложении",
@@ -191,5 +187,14 @@
 		"appearance": {
 			"title": "Внешний вид"
 		}
+	},
+	"updates": {
+		"update": "Обновить",
+		"checking": "Проверка…",
+		"downloading": "Загрузка…",
+		"restart": "Перезапустить",
+		"updateAvailable": "Доступно {{version}}",
+		"upToDate": "Обновлений нет",
+		"error": "Не удалось проверить"
 	}
 }

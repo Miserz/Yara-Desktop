@@ -190,7 +190,8 @@ const SHORTCUTS: { key: string; kbds: string[] }[] = [
 	{ key: 'newChat', kbds: ['Ctrl', 'T'] },
 	{ key: 'commandMenu', kbds: ['Ctrl', 'K'] },
 	{ key: 'searchChats', kbds: ['Ctrl', 'F'] },
-	{ key: 'newWindow', kbds: ['Ctrl', 'N'] }
+	{ key: 'newWindow', kbds: ['Ctrl', 'N'] },
+	{ key: 'toggleSidebar', kbds: ['Ctrl', 'B'] }
 ]
 
 export function GeneralSection() {

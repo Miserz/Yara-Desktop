@@ -20,7 +20,7 @@ const sidebarStore: StateCreator<ISidebarState> = set => ({
 	toggle: () => set(state => ({ open: !state.open }))
 })
 
-const useSidebarStore = create<ISidebarState>()(
+export const useSidebarStore = create<ISidebarState>()(
 	persist(sidebarStore, { name: 'sidebar' })
 )
 

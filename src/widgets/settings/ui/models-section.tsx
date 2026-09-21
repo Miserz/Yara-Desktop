@@ -17,6 +17,7 @@ import {
 	X
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { openUrl } from '@tauri-apps/plugin-opener'
 import {
 	Button,
 	Dialog,
@@ -133,18 +134,56 @@ export function ModelsSection() {
 
 	if (!selected) {
 		return (
-			<div className='flex flex-col items-center gap-3 py-16 text-center'>
-				<p className='text-sm text-muted-foreground'>
-					{t('settings.models.noProviders')}
-				</p>
-				<Button
-					onClick={() => setProviderDialog({ mode: 'create' })}
-					className='h-8 rounded-lg'
-				>
-					<Plus className='size-3.5' />
-					{t('settings.models.addProvider')}
-				</Button>
-			</div>
+			<>
+				<div className='flex w-full items-center gap-8'>
+					<div className='flex size-[120px] shrink-0 items-center justify-center rounded-[20px] border border-[#FFFFFF0F] bg-[#FFFFFF06]'>
+						<PlugZap className='size-9 text-muted-foreground' />
+					</div>
+					<div className='flex flex-1 flex-col gap-3'>
+						<p className='text-base font-medium text-foreground'>
+							{t('settings.models.emptyTitle')}
+						</p>
+						<p className='text-[13px] leading-5 text-muted-foreground'>
+							{t('settings.models.emptyDesc')}
+						</p>
+						<div className='flex items-center gap-3 pt-1'>
+							<Button
+								onClick={() => setProviderDialog({ mode: 'create' })}
+								className='h-[34px] rounded-lg'
+							>
+								<Plus className='size-3.5' />
+								{t('settings.models.addProvider')}
+							</Button>
+							<button
+								type='button'
+								onClick={() =>
+									openUrl('https://github.com/Miserz/yara#readme').catch(
+										() => {}
+									)
+								}
+								className='text-xs text-[#7C9EFF] hover:underline'
+							>
+								{t('settings.models.docsLink')}
+							</button>
+						</div>
+					</div>
+				</div>
+				{providerDialog && (
+					<ProviderDialog
+						key={
+							providerDialog.mode +
+							('id' in providerDialog ? providerDialog.id : '')
+						}
+						dialog={providerDialog}
+						providers={providers}
+						onClose={() => setProviderDialog(null)}
+						onSaved={id => {
+							setSelectedId(id)
+							setLastSync(Date.now())
+						}}
+					/>
+				)}
+			</>
 		)
 	}
 
