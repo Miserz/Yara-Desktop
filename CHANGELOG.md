@@ -3,6 +3,15 @@
 All notable changes to Yara are documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.1.2] — 2026-09-21
+
+### Added
+- 
+
+### Fixed
+- 
+
+
 ## [0.1.1] — 2026-09-22
 
 ### Fixed

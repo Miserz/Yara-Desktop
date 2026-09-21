@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { GitBranch, Globe, RefreshCw, Scale } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { getVersion } from '@tauri-apps/api/app'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import { Button } from '@/shared/components'
 import {
@@ -9,8 +11,8 @@ import {
 } from '@/app/store/updater'
 import { checkForUpdates, downloadAndInstall } from '@/shared/lib/updater'
 
-const APP_VERSION = '0.1.0'
 const REPO_URL = 'https://github.com/Miserz/yara'
+const FALLBACK_VERSION = '0.1.1'
 
 function Divider() {
 	return <div className='h-px w-full bg-[#FFFFFF0F]' />
@@ -21,6 +23,13 @@ export function AboutSection() {
 	const status = useUpdaterStatus()
 	const version = useUpdaterVersion()
 	const error = useUpdaterError()
+	const [appVersion, setAppVersion] = useState(FALLBACK_VERSION)
+
+	useEffect(() => {
+		void getVersion()
+			.then(setAppVersion)
+			.catch(() => {})
+	}, [])
 
 	const open = (url: string) => {
 		openUrl(url).catch(() => {})
@@ -42,7 +51,7 @@ export function AboutSection() {
 								: null
 
 	const rows: { label: string; value: string }[] = [
-		{ label: t('settings.about.version'), value: APP_VERSION },
+		{ label: t('settings.about.version'), value: appVersion },
 		{ label: t('settings.about.engine'), value: t('settings.about.engineValue') },
 		{
 			label: t('settings.about.interface'),
@@ -97,7 +106,7 @@ export function AboutSection() {
 				<div className='flex h-6 items-center gap-1.5 rounded-full bg-[#FFFFFF12] px-2.5'>
 					<span className='size-1.5 rounded-full bg-[#4ADE80]' />
 					<span className='text-xs text-muted-foreground'>
-						{t('settings.about.versionBadge', { version: APP_VERSION })}
+						{t('settings.about.versionBadge', { version: appVersion })}
 					</span>
 				</div>
 				{checkLabel && (
