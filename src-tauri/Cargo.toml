@@ -1,6 +1,6 @@
 [package]
 name = "yara"
-version = "0.1.4"
+version = "0.1.5"
 description = "Desktop AI assistant with streaming chat and reasoning support"
 authors = ["Miserz <melnikovegor1212@gmail.com>"]
 license = "MIT"
