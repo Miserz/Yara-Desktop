@@ -33,15 +33,15 @@ function UpdatePill() {
 		<motion.button
 			type='button'
 			initial={false}
-			animate={{ width: 32 }}
-			whileHover={{ width: label.length > 6 ? 128 : 112 }}
+			animate={{ width: 24 }}
+			whileHover={{ width: label.length > 6 ? 112 : 96 }}
 			transition={{ duration: 0.18, ease: [0.32, 0.72, 0, 1] }}
 			onClick={() => {
 				if (status === 'available') void downloadAndInstall()
 				if (status === 'ready') void downloadAndInstall()
 			}}
 			disabled={status === 'downloading'}
-			className='group flex h-7 items-center justify-center gap-1.5 overflow-hidden rounded-full bg-[#3B82F6] px-0 text-xs font-medium text-white disabled:opacity-80'
+			className='group flex h-6 items-center justify-center gap-1.5 overflow-hidden rounded-full bg-primary px-0 text-xs font-medium text-primary-foreground disabled:opacity-80'
 			aria-label={label}
 			title={version ? `${label} ${version}` : label}
 		>
